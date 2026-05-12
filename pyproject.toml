@@ -1,0 +1,7 @@
+[project]
+name = "pycubetools"
+version = "0.1.0"
+description = "Python interface to CUBE tools"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["ipykernel>=7.2.0", "polars>=1.40.1", "pycubexr>=2.1.1"]
