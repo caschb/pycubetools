@@ -6,26 +6,51 @@ description = "Python interface to CUBE tools"
 readme = "README.md"
 license-files = ["LICENSE"]
 requires-python = ">=3.11"
-dependencies = ["polars>=1.40.1", "pycubexr>=2.1.1"]
+dependencies = [
+    "polars>=1.40.1",
+    "pycubexr>=2.1.1",
+]
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+[tool.hatch.build.targets.wheel]
+packages = ["pycubetools"]
+
 [dependency-groups]
 dev = [
     "ipykernel>=7.2.0",
     "pytest>=9.0.3",
+    "pytest-cov>=6.0",
     "ruff>=0.15.12",
     "ty>=0.0.35",
 ]
 
 [tool.ruff.lint]
 select = ["ALL"]
-ignore = ["D203", "D213"]
+ignore = [
+    "D203",   # one-blank-line-before-class (conflicts with D211)
+    "D213",   # multi-line-summary-second-line (conflicts with D212)
+]
 
 [tool.ruff.lint.per-file-ignores]
 "*.ipynb" = ["T201"]
+"tests/**" = ["S101"]   # allow assert in tests
+
+[tool.ruff.lint.isort]
+known-first-party = ["pycubetools"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "integration: requires CubeLib binaries on PATH or CUBE_INSTALL_DIR",
+]
+addopts = "-m 'not integration'"
+
+[tool.coverage.run]
+source = ["pycubetools"]
+omit = ["tests/*"]
 
 [tool.ty.rules]
 all = "error"
