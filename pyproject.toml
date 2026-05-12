@@ -9,4 +9,18 @@ requires-python = ">=3.11"
 dependencies = ["polars>=1.40.1", "pycubexr>=2.1.1"]
 
 [dependency-groups]
-dev = ["ipykernel"]
+dev = [
+ "ipykernel>=7.2.0",
+ "ruff>=0.15.12",
+ "ty>=0.0.35",
+]
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = ["D203", "D213"]
+
+[tool.ruff.lint.per-file-ignores]
+"*.ipynb" = ["T201"]
+
+[tool.ty.rules]
+all = "error"
