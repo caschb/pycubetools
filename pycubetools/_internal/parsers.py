@@ -327,15 +327,15 @@ def parse_dump(raw: str, fmt: str = "csv2") -> pl.DataFrame:  # noqa: ARG001
     # Normalise header names (strip spaces)
     df_wide = df_wide.rename({c: c.strip() for c in df_wide.columns})
 
-    id_cols = ["Cnode ID", "Thread ID"]
-    missing = [c for c in id_cols if c not in df_wide.columns]
-    if missing:
+    if "Cnode ID" not in df_wide.columns:
         raise CubeParseError(
             tool="cube_dump",
             raw=raw,
-            reason=f"missing id columns: {missing}",
+            reason="missing required 'Cnode ID' column",
         )
 
+    has_thread_col = "Thread ID" in df_wide.columns
+    id_cols = ["Cnode ID", "Thread ID"] if has_thread_col else ["Cnode ID"]
     metric_cols = [c for c in df_wide.columns if c not in id_cols]
     if not metric_cols:
         raise CubeParseError(
@@ -350,6 +350,11 @@ def parse_dump(raw: str, fmt: str = "csv2") -> pl.DataFrame:  # noqa: ARG001
         value_name="value",
     )
 
-    return df_long.rename(
-        {"Cnode ID": "cnode_id", "Thread ID": "thread_id"},
-    ).select(["cnode_id", "thread_id", "metric", "value"])
+    df_long = df_long.rename({"Cnode ID": "cnode_id"})
+    if has_thread_col:
+        df_long = df_long.rename({"Thread ID": "thread_id"})
+    else:
+        # Aggregated mode: no per-thread breakdown; use -1 as sentinel
+        df_long = df_long.with_columns(pl.lit(-1).alias("thread_id"))
+
+    return df_long.select(["cnode_id", "thread_id", "metric", "value"])
