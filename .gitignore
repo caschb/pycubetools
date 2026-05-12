@@ -12,5 +12,8 @@ wheels/
 # Ruff files
 .ruff_cache/
 
-# Development notebooks
-notebooks
+# Notebook data (large binary .cubex files)
+notebooks/data/
+
+# Coverage reports
+.coverage

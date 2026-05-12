@@ -72,6 +72,10 @@ class CubeExperiment:
         # True when this instance owns its output file and should clean it up.
         self._owned: bool = False
         self._owned_path: Path | None = None
+        # Keeps the TempfileManager alive when the output was written to a
+        # temporary directory — prevents the directory from being deleted by GC
+        # before we finish using the file.
+        self._temp_mgr: TempfileManager | None = None
 
     # ------------------------------------------------------------------
     # Dunder helpers
@@ -99,10 +103,13 @@ class CubeExperiment:
         self._cleanup()
 
     def _cleanup(self) -> None:
-        """Remove the owned output file if applicable."""
-        if self._owned and self._owned_path is not None:
+        """Remove the owned output file and any associated temp directory."""
+        if getattr(self, "_owned", False) and self._owned_path is not None:
             with contextlib.suppress(OSError):
                 self._owned_path.unlink(missing_ok=True)
+            temp_mgr = getattr(self, "_temp_mgr", None)
+            if temp_mgr is not None:
+                temp_mgr.cleanup()
             self._owned = False
 
     # ------------------------------------------------------------------
@@ -187,11 +194,11 @@ class CubeExperiment:
         out_dir = self._resolve_output_dir(
             Path(output_dir) if output_dir else None,
         )
-        with TempfileManager(out_dir) as mgr:
-            out_path = mgr.next_path()
-            runner = self._make_runner()
-            _algebra.diff(self._path, other._path, out_path, system_dim, runner)
-        return _make_owned(out_path, out_dir)
+        mgr = TempfileManager(out_dir)
+        out_path = mgr.next_path()
+        runner = self._make_runner()
+        _algebra.diff(self._path, other._path, out_path, system_dim, runner)
+        return _make_owned(out_path, out_dir, mgr if out_dir is None else None)
 
     def cmp(self, other: CubeExperiment) -> CompareResult:
         """Compare this experiment with *other* using ``cube_cmp``.
@@ -239,12 +246,12 @@ class CubeExperiment:
         """
         out_dir = Path(output_dir) if output_dir else None
         runner = experiments[0]._make_runner()  # noqa: SLF001
-        with TempfileManager(out_dir) as mgr:
-            out_path = mgr.next_path()
-            _algebra.merge(
-                [e._path for e in experiments], out_path, system_dim, runner,  # noqa: SLF001
-            )
-        return _make_owned(out_path, out_dir)
+        mgr = TempfileManager(out_dir)
+        out_path = mgr.next_path()
+        _algebra.merge(
+            [e._path for e in experiments], out_path, system_dim, runner,  # noqa: SLF001
+        )
+        return _make_owned(out_path, out_dir, mgr if out_dir is None else None)
 
     @classmethod
     def mean(
@@ -272,12 +279,12 @@ class CubeExperiment:
         """
         out_dir = Path(output_dir) if output_dir else None
         runner = experiments[0]._make_runner()  # noqa: SLF001
-        with TempfileManager(out_dir) as mgr:
-            out_path = mgr.next_path()
-            _algebra.mean(
-                [e._path for e in experiments], out_path, system_dim, runner,  # noqa: SLF001
-            )
-        return _make_owned(out_path, out_dir)
+        mgr = TempfileManager(out_dir)
+        out_path = mgr.next_path()
+        _algebra.mean(
+            [e._path for e in experiments], out_path, system_dim, runner,  # noqa: SLF001
+        )
+        return _make_owned(out_path, out_dir, mgr if out_dir is None else None)
 
     # ------------------------------------------------------------------
     # Inspection
@@ -413,15 +420,21 @@ class CubeExperiment:
         return override if override is not None else self._output_dir
 
 
-def _make_owned(out_path: Path, out_dir: Path | None) -> CubeExperiment:
+def _make_owned(
+    out_path: Path,
+    out_dir: Path | None,
+    temp_mgr: TempfileManager | None = None,
+) -> CubeExperiment:
     """Construct a CubeExperiment that owns *out_path* and will delete it.
 
     The instance owns its file only when it was written to a temp directory
-    (i.e. *out_dir* is ``None``).
+    (i.e. *out_dir* is ``None``).  *temp_mgr* is stored on the instance to
+    keep the underlying ``TemporaryDirectory`` alive until cleanup.
     """
     exp = CubeExperiment.__new__(CubeExperiment)
     exp._path = out_path  # noqa: SLF001
     exp._output_dir = out_dir  # noqa: SLF001
     exp._owned = out_dir is None  # noqa: SLF001
     exp._owned_path = out_path if out_dir is None else None  # noqa: SLF001
+    exp._temp_mgr = temp_mgr  # noqa: SLF001
     return exp
