@@ -11,3 +11,6 @@ wheels/
 
 # Ruff files
 .ruff_cache/
+
+# Development notebooks
+notebooks
