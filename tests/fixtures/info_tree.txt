@@ -1,0 +1,330 @@
+|            Time | Diff-Calltree
+|       5516.7053 |  * tea_leaf
+|       5516.6935 |  |  * tea_leaf
+|        110.5789 |  |  |  * tea_module::tea_init_comms
+|        110.5661 |  |  |  |  * MPI_Init
+|          0.0016 |  |  |  |  * MPI_Comm_rank
+|          0.0002 |  |  |  |  * MPI_Comm_size
+|          0.0193 |  |  |  * !$omp parallel @tea_leaf.f90:45
+|          0.0099 |  |  |  |  * !$omp implicit barrier @tea_leaf.f90:64
+|         26.0506 |  |  |  * initialise
+|          0.0079 |  |  |  |  * get_unit
+|          0.0006 |  |  |  |  * !$omp parallel @initialise.f90:48
+|          0.0004 |  |  |  |  |  * !$omp implicit barrier @initialise.f90:61
+|         20.1557 |  |  |  |  * tea_module::tea_barrier
+|         20.1533 |  |  |  |  |  * MPI_Barrier
+|          0.0000 |  |  |  |  * parse_module::parse_init
+|          0.0011 |  |  |  |  * parse_module::parse_getline
+|          0.2234 |  |  |  |  * read_input
+|          0.0016 |  |  |  |  |  * parse_module::parse_init
+|          0.1935 |  |  |  |  |  * parse_module::parse_getline
+|          0.0025 |  |  |  |  |  |  * parse_module::parse_scan
+|          0.0047 |  |  |  |  |  * parse_module::parse_getword
+|          0.0063 |  |  |  |  |  * parse_module::parse_getival
+|          0.0069 |  |  |  |  |  * parse_module::parse_getrval
+|          3.4701 |  |  |  |  * start
+|          0.5082 |  |  |  |  |  * tea_module::tea_barrier
+|          0.5076 |  |  |  |  |  |  * MPI_Barrier
+|          0.0000 |  |  |  |  |  * tea_module::tea_get_num_chunks
+|          0.0009 |  |  |  |  |  * tea_module::tea_decompose
+|          1.8181 |  |  |  |  |  * build_field
+|          1.8002 |  |  |  |  |  |  * !$omp parallel @build_field.f90:86
+|          1.4526 |  |  |  |  |  |  |  * !$omp do @build_field.f90:87
+|          0.2952 |  |  |  |  |  |  |  |  * !$omp implicit barrier @build_field.f90:105
+|          0.1820 |  |  |  |  |  |  |  * !$omp do @build_field.f90:106
+|          0.0334 |  |  |  |  |  |  |  |  * !$omp implicit barrier @build_field.f90:112
+|          0.1317 |  |  |  |  |  |  |  * !$omp do @build_field.f90:113
+|          0.0456 |  |  |  |  |  |  |  |  * !$omp implicit barrier @build_field.f90:119
+|          0.0021 |  |  |  |  |  |  |  * !$omp do @build_field.f90:121
+|          0.0010 |  |  |  |  |  |  |  |  * !$omp implicit barrier @build_field.f90:126
+|          0.0014 |  |  |  |  |  |  |  * !$omp do @build_field.f90:127
+|          0.0007 |  |  |  |  |  |  |  |  * !$omp implicit barrier @build_field.f90:132
+|          0.0013 |  |  |  |  |  |  |  * !$omp do @build_field.f90:134
+|          0.0006 |  |  |  |  |  |  |  |  * !$omp implicit barrier @build_field.f90:139
+|          0.0013 |  |  |  |  |  |  |  * !$omp do @build_field.f90:140
+|          0.0006 |  |  |  |  |  |  |  |  * !$omp implicit barrier @build_field.f90:145
+|          0.0001 |  |  |  |  |  |  |  * !$omp implicit barrier @build_field.f90:146
+|          0.0043 |  |  |  |  |  * tea_module::tea_allocate_buffers
+|          0.1947 |  |  |  |  |  * initialise_chunk
+|          0.1828 |  |  |  |  |  |  * initialise_chunk_kernel_module::initialise_chunk_kernel
+|          0.1816 |  |  |  |  |  |  |  * !$omp parallel @initialise_chunk_kernel.f90:58
+|          0.0139 |  |  |  |  |  |  |  |  * !$omp do @initialise_chunk_kernel.f90:59
+|          0.0085 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @initialise_chunk_kernel.f90:63
+|          0.0010 |  |  |  |  |  |  |  |  * !$omp do @initialise_chunk_kernel.f90:65
+|          0.0007 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @initialise_chunk_kernel.f90:69
+|          0.0156 |  |  |  |  |  |  |  |  * !$omp do @initialise_chunk_kernel.f90:71
+|          0.0043 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @initialise_chunk_kernel.f90:75
+|          0.0003 |  |  |  |  |  |  |  |  * !$omp do @initialise_chunk_kernel.f90:77
+|          0.0002 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @initialise_chunk_kernel.f90:81
+|          0.0004 |  |  |  |  |  |  |  |  * !$omp do @initialise_chunk_kernel.f90:83
+|          0.0002 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @initialise_chunk_kernel.f90:87
+|          0.0003 |  |  |  |  |  |  |  |  * !$omp do @initialise_chunk_kernel.f90:89
+|          0.0002 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @initialise_chunk_kernel.f90:93
+|          0.0004 |  |  |  |  |  |  |  |  * !$omp do @initialise_chunk_kernel.f90:95
+|          0.0002 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @initialise_chunk_kernel.f90:99
+|          0.0003 |  |  |  |  |  |  |  |  * !$omp do @initialise_chunk_kernel.f90:101
+|          0.0002 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @initialise_chunk_kernel.f90:105
+|          0.1130 |  |  |  |  |  |  |  |  * !$omp do @initialise_chunk_kernel.f90:107
+|          0.0371 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @initialise_chunk_kernel.f90:113
+|          0.0224 |  |  |  |  |  |  |  |  * !$omp do @initialise_chunk_kernel.f90:115
+|          0.0061 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @initialise_chunk_kernel.f90:121
+|          0.0137 |  |  |  |  |  |  |  |  * !$omp do @initialise_chunk_kernel.f90:123
+|          0.0028 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @initialise_chunk_kernel.f90:129
+|          0.0001 |  |  |  |  |  |  |  |  * !$omp implicit barrier @initialise_chunk_kernel.f90:130
+|          0.2771 |  |  |  |  |  * generate_chunk
+|          0.2749 |  |  |  |  |  |  * generate_chunk_kernel_module::generate_chunk_kernel
+|          0.2740 |  |  |  |  |  |  |  * !$omp parallel @generate_chunk_kernel.f90:81
+|          0.0460 |  |  |  |  |  |  |  |  * !$omp do @generate_chunk_kernel.f90:82
+|          0.0032 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @generate_chunk_kernel.f90:88
+|          0.0649 |  |  |  |  |  |  |  |  * !$omp do @generate_chunk_kernel.f90:89
+|          0.0111 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @generate_chunk_kernel.f90:95
+|          0.0970 |  |  |  |  |  |  |  |  * !$omp do @generate_chunk_kernel.f90:102
+|          0.0078 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @generate_chunk_kernel.f90:126
+|          0.0656 |  |  |  |  |  |  |  |  * !$omp do @generate_chunk_kernel.f90:130
+|          0.0024 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @generate_chunk_kernel.f90:136
+|          0.0001 |  |  |  |  |  |  |  |  * !$omp implicit barrier @generate_chunk_kernel.f90:138
+|          0.4956 |  |  |  |  |  * update_halo_module::update_halo
+|          0.4707 |  |  |  |  |  |  * tea_module::tea_exchange
+|          0.0093 |  |  |  |  |  |  |  * tea_module::tea_pack_right
+|          0.0091 |  |  |  |  |  |  |  |  * pack_kernel_module::tea_pack_message_right
+|          0.0060 |  |  |  |  |  |  |  |  |  * !$omp parallel @pack_kernel.f90:153
+|          0.0044 |  |  |  |  |  |  |  |  |  |  * !$omp do @pack_kernel.f90:153
+|          0.0021 |  |  |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @pack_kernel.f90:160
+|          0.0262 |  |  |  |  |  |  |  * tea_module::tea_send_recv_message_right
+|          0.0209 |  |  |  |  |  |  |  |  * MPI_Isend
+|          0.0010 |  |  |  |  |  |  |  |  * MPI_Irecv
+|          0.3182 |  |  |  |  |  |  |  * MPI_Waitall
+|          0.0021 |  |  |  |  |  |  |  * tea_module::tea_unpack_right
+|          0.0020 |  |  |  |  |  |  |  |  * pack_kernel_module::tea_unpack_message_right
+|          0.0010 |  |  |  |  |  |  |  |  |  * !$omp parallel @pack_kernel.f90:199
+|          0.0008 |  |  |  |  |  |  |  |  |  |  * !$omp do @pack_kernel.f90:199
+|          0.0004 |  |  |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @pack_kernel.f90:206
+|          0.0099 |  |  |  |  |  |  |  * tea_module::tea_pack_top
+|          0.0098 |  |  |  |  |  |  |  |  * pack_kernel_module::tea_pack_message_top
+|          0.0062 |  |  |  |  |  |  |  |  |  * !$omp parallel @pack_kernel.f90:246
+|          0.0054 |  |  |  |  |  |  |  |  |  |  * !$omp do @pack_kernel.f90:246
+|          0.0029 |  |  |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @pack_kernel.f90:251
+|          0.0098 |  |  |  |  |  |  |  * tea_module::tea_send_recv_message_top
+|          0.0095 |  |  |  |  |  |  |  |  * MPI_Isend
+|          0.0002 |  |  |  |  |  |  |  |  * MPI_Irecv
+|          0.0040 |  |  |  |  |  |  |  * tea_module::tea_unpack_top
+|          0.0038 |  |  |  |  |  |  |  |  * pack_kernel_module::tea_unpack_message_top
+|          0.0017 |  |  |  |  |  |  |  |  |  * !$omp parallel @pack_kernel.f90:292
+|          0.0015 |  |  |  |  |  |  |  |  |  |  * !$omp do @pack_kernel.f90:292
+|          0.0009 |  |  |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @pack_kernel.f90:297
+|          0.0176 |  |  |  |  |  |  |  * tea_module::tea_pack_left
+|          0.0171 |  |  |  |  |  |  |  |  * pack_kernel_module::tea_pack_message_left
+|          0.0067 |  |  |  |  |  |  |  |  |  * !$omp parallel @pack_kernel.f90:61
+|          0.0053 |  |  |  |  |  |  |  |  |  |  * !$omp do @pack_kernel.f90:61
+|          0.0044 |  |  |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @pack_kernel.f90:68
+|          0.0421 |  |  |  |  |  |  |  * tea_module::tea_send_recv_message_left
+|          0.0242 |  |  |  |  |  |  |  |  * MPI_Isend
+|          0.0030 |  |  |  |  |  |  |  |  * MPI_Irecv
+|          0.0027 |  |  |  |  |  |  |  * tea_module::tea_unpack_left
+|          0.0023 |  |  |  |  |  |  |  |  * pack_kernel_module::tea_unpack_message_left
+|          0.0012 |  |  |  |  |  |  |  |  |  * !$omp parallel @pack_kernel.f90:107
+|          0.0011 |  |  |  |  |  |  |  |  |  |  * !$omp do @pack_kernel.f90:107
+|          0.0005 |  |  |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @pack_kernel.f90:114
+|          0.0170 |  |  |  |  |  |  |  * tea_module::tea_pack_bottom
+|          0.0159 |  |  |  |  |  |  |  |  * pack_kernel_module::tea_pack_message_bottom
+|          0.0060 |  |  |  |  |  |  |  |  |  * !$omp parallel @pack_kernel.f90:337
+|          0.0043 |  |  |  |  |  |  |  |  |  |  * !$omp do @pack_kernel.f90:337
+|          0.0034 |  |  |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @pack_kernel.f90:344
+|          0.0034 |  |  |  |  |  |  |  * tea_module::tea_send_recv_message_bottom
+|          0.0032 |  |  |  |  |  |  |  |  * MPI_Isend
+|          0.0001 |  |  |  |  |  |  |  |  * MPI_Irecv
+|          0.0039 |  |  |  |  |  |  |  * tea_module::tea_unpack_bottom
+|          0.0038 |  |  |  |  |  |  |  |  * pack_kernel_module::tea_unpack_message_bottom
+|          0.0020 |  |  |  |  |  |  |  |  |  * !$omp parallel @pack_kernel.f90:384
+|          0.0018 |  |  |  |  |  |  |  |  |  |  * !$omp do @pack_kernel.f90:384
+|          0.0011 |  |  |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @pack_kernel.f90:389
+|          0.0175 |  |  |  |  |  |  * update_halo_kernel_module::update_halo_kernel
+|          0.0170 |  |  |  |  |  |  |  * !$omp parallel @update_halo_kernel.f90:69
+|          0.0006 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:77
+|          0.0005 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:83
+|          0.0002 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:95
+|          0.0002 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:101
+|          0.0006 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:116
+|          0.0005 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:122
+|          0.0004 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:134
+|          0.0002 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:140
+|          0.0006 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:155
+|          0.0005 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:161
+|          0.0002 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:173
+|          0.0001 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:179
+|          0.0001 |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:309
+|          0.0006 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:104
+|          0.0004 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:110
+|          0.0002 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:143
+|          0.0001 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:149
+|          0.0003 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:182
+|          0.0001 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:188
+|          0.0017 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:86
+|          0.0014 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:92
+|          0.0014 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:125
+|          0.0013 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:131
+|          0.0038 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:164
+|          0.0019 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:170
+|          0.1622 |  |  |  |  |  * field_summary
+|          0.0779 |  |  |  |  |  |  * field_summary_kernel_module::field_summary_kernel
+|          0.0774 |  |  |  |  |  |  |  * !$omp parallel @field_summary_kernel.f90:49
+|          0.0771 |  |  |  |  |  |  |  |  * !$omp do @field_summary_kernel.f90:50
+|          0.0077 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @field_summary_kernel.f90:61
+|          0.0001 |  |  |  |  |  |  |  |  * !$omp implicit barrier @field_summary_kernel.f90:62
+|          0.0818 |  |  |  |  |  |  * tea_module::tea_sum
+|          0.0789 |  |  |  |  |  |  |  * MPI_Reduce
+|       5379.9286 |  |  |  * diffuse
+|          0.0030 |  |  |  |  * timer
+|          0.0012 |  |  |  |  |  * timer_c_
+|          0.0464 |  |  |  |  * set_field_module::set_field
+|          0.0463 |  |  |  |  |  * set_field_kernel_module::set_field_kernel
+|          0.0455 |  |  |  |  |  |  * !$omp parallel @set_field_kernel.f90:39
+|          0.0452 |  |  |  |  |  |  |  * !$omp do @set_field_kernel.f90:41
+|          0.0013 |  |  |  |  |  |  |  |  * !$omp implicit barrier @set_field_kernel.f90:47
+|          0.0001 |  |  |  |  |  |  |  * !$omp implicit barrier @set_field_kernel.f90:49
+|          0.2655 |  |  |  |  * timestep_module::timestep
+|          0.0003 |  |  |  |  |  * calc_dt_module::calc_dt
+|          0.2628 |  |  |  |  |  * tea_module::tea_min
+|          0.2585 |  |  |  |  |  |  * MPI_Allreduce
+|       5379.3316 |  |  |  |  * tea_leaf_module::tea_leaf
+|          4.0971 |  |  |  |  |  * timer
+|          2.2666 |  |  |  |  |  |  * timer_c_
+|        455.1761 |  |  |  |  |  * update_halo_module::update_halo
+|        419.3584 |  |  |  |  |  |  * tea_module::tea_exchange
+|         29.9908 |  |  |  |  |  |  |  * tea_module::tea_pack_right
+|         26.7243 |  |  |  |  |  |  |  |  * pack_kernel_module::tea_pack_message_right
+|         12.0726 |  |  |  |  |  |  |  |  |  * !$omp parallel @pack_kernel.f90:153
+|          9.7922 |  |  |  |  |  |  |  |  |  |  * !$omp do @pack_kernel.f90:153
+|          5.0170 |  |  |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @pack_kernel.f90:160
+|         11.1137 |  |  |  |  |  |  |  * tea_module::tea_send_recv_message_right
+|          6.1872 |  |  |  |  |  |  |  |  * MPI_Isend
+|          2.5576 |  |  |  |  |  |  |  |  * MPI_Irecv
+|        145.4699 |  |  |  |  |  |  |  * MPI_Waitall
+|         26.9000 |  |  |  |  |  |  |  * tea_module::tea_unpack_right
+|         24.4433 |  |  |  |  |  |  |  |  * pack_kernel_module::tea_unpack_message_right
+|          9.7437 |  |  |  |  |  |  |  |  |  * !$omp parallel @pack_kernel.f90:199
+|          7.7403 |  |  |  |  |  |  |  |  |  |  * !$omp do @pack_kernel.f90:199
+|          4.0989 |  |  |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @pack_kernel.f90:206
+|         26.4094 |  |  |  |  |  |  |  * tea_module::tea_pack_top
+|         24.1575 |  |  |  |  |  |  |  |  * pack_kernel_module::tea_pack_message_top
+|          9.0466 |  |  |  |  |  |  |  |  |  * !$omp parallel @pack_kernel.f90:246
+|          7.0285 |  |  |  |  |  |  |  |  |  |  * !$omp do @pack_kernel.f90:246
+|          4.3861 |  |  |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @pack_kernel.f90:251
+|          4.8993 |  |  |  |  |  |  |  * tea_module::tea_send_recv_message_top
+|          2.1461 |  |  |  |  |  |  |  |  * MPI_Isend
+|          1.3953 |  |  |  |  |  |  |  |  * MPI_Irecv
+|         25.9557 |  |  |  |  |  |  |  * tea_module::tea_unpack_top
+|         23.8115 |  |  |  |  |  |  |  |  * pack_kernel_module::tea_unpack_message_top
+|          8.9842 |  |  |  |  |  |  |  |  |  * !$omp parallel @pack_kernel.f90:292
+|          7.0382 |  |  |  |  |  |  |  |  |  |  * !$omp do @pack_kernel.f90:292
+|          4.5740 |  |  |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @pack_kernel.f90:297
+|         32.7698 |  |  |  |  |  |  |  * tea_module::tea_pack_left
+|         28.6834 |  |  |  |  |  |  |  |  * pack_kernel_module::tea_pack_message_left
+|         13.1201 |  |  |  |  |  |  |  |  |  * !$omp parallel @pack_kernel.f90:61
+|         10.0658 |  |  |  |  |  |  |  |  |  |  * !$omp do @pack_kernel.f90:61
+|          5.4786 |  |  |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @pack_kernel.f90:68
+|         22.1725 |  |  |  |  |  |  |  * tea_module::tea_send_recv_message_left
+|         14.4748 |  |  |  |  |  |  |  |  * MPI_Isend
+|          3.9537 |  |  |  |  |  |  |  |  * MPI_Irecv
+|         26.7901 |  |  |  |  |  |  |  * tea_module::tea_unpack_left
+|         24.6140 |  |  |  |  |  |  |  |  * pack_kernel_module::tea_unpack_message_left
+|         10.4103 |  |  |  |  |  |  |  |  |  * !$omp parallel @pack_kernel.f90:107
+|          8.3732 |  |  |  |  |  |  |  |  |  |  * !$omp do @pack_kernel.f90:107
+|          4.1484 |  |  |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @pack_kernel.f90:114
+|         24.7008 |  |  |  |  |  |  |  * tea_module::tea_pack_bottom
+|         22.4073 |  |  |  |  |  |  |  |  * pack_kernel_module::tea_pack_message_bottom
+|          8.8008 |  |  |  |  |  |  |  |  |  * !$omp parallel @pack_kernel.f90:337
+|          6.2912 |  |  |  |  |  |  |  |  |  |  * !$omp do @pack_kernel.f90:337
+|          4.6065 |  |  |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @pack_kernel.f90:344
+|          4.4931 |  |  |  |  |  |  |  * tea_module::tea_send_recv_message_bottom
+|          1.9332 |  |  |  |  |  |  |  |  * MPI_Isend
+|          1.1179 |  |  |  |  |  |  |  |  * MPI_Irecv
+|         26.0632 |  |  |  |  |  |  |  * tea_module::tea_unpack_bottom
+|         23.6527 |  |  |  |  |  |  |  |  * pack_kernel_module::tea_unpack_message_bottom
+|          9.3131 |  |  |  |  |  |  |  |  |  * !$omp parallel @pack_kernel.f90:384
+|          7.3211 |  |  |  |  |  |  |  |  |  |  * !$omp do @pack_kernel.f90:384
+|          4.8254 |  |  |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @pack_kernel.f90:389
+|         32.8520 |  |  |  |  |  |  * update_halo_kernel_module::update_halo_kernel
+|         23.1524 |  |  |  |  |  |  |  * !$omp parallel @update_halo_kernel.f90:69
+|          0.0016 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:77
+|          0.0007 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:83
+|          0.0010 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:95
+|          0.0004 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:101
+|          0.0029 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:155
+|          0.0012 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:161
+|          0.0018 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:173
+|          0.0007 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:179
+|          2.1903 |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:309
+|          1.4993 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:194
+|          0.9104 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:200
+|          1.5745 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:212
+|          0.6665 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:218
+|          1.1654 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:233
+|          0.7724 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:239
+|          1.3840 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:251
+|          0.5950 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:257
+|          0.0019 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:104
+|          0.0007 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:110
+|          0.0034 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:182
+|          0.0012 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:188
+|          3.1398 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:221
+|          1.3382 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:227
+|          2.9072 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:260
+|          1.2098 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:266
+|          0.0038 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:86
+|          0.0013 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:92
+|          0.0056 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:164
+|          0.0019 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:170
+|          3.1948 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:203
+|          1.3931 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:209
+|          3.0352 |  |  |  |  |  |  |  |  * !$omp do @update_halo_kernel.f90:242
+|          1.5720 |  |  |  |  |  |  |  |  |  * !$omp implicit barrier @update_halo_kernel.f90:248
+|          5.9621 |  |  |  |  |  * tea_leaf_kernel_cg_module::tea_leaf_kernel_init_cg_fortran
+|          4.1769 |  |  |  |  |  |  * !$omp parallel @tea_leaf_cg.f90:76
+|          0.8179 |  |  |  |  |  |  |  * !$omp do @tea_leaf_cg.f90:77
+|          0.2707 |  |  |  |  |  |  |  |  * !$omp implicit barrier @tea_leaf_cg.f90:83
+|          0.4364 |  |  |  |  |  |  |  * !$omp do @tea_leaf_cg.f90:95
+|          0.0853 |  |  |  |  |  |  |  |  * !$omp implicit barrier @tea_leaf_cg.f90:101
+|          1.0465 |  |  |  |  |  |  |  * !$omp do @tea_leaf_cg.f90:104
+|          0.0225 |  |  |  |  |  |  |  |  * !$omp implicit barrier @tea_leaf_cg.f90:111
+|          1.2370 |  |  |  |  |  |  |  * !$omp do @tea_leaf_cg.f90:113
+|          0.0272 |  |  |  |  |  |  |  |  * !$omp implicit barrier @tea_leaf_cg.f90:125
+|          0.6315 |  |  |  |  |  |  |  * !$omp do @tea_leaf_cg.f90:145
+|          0.0102 |  |  |  |  |  |  |  |  * !$omp implicit barrier @tea_leaf_cg.f90:153
+|          0.0021 |  |  |  |  |  |  |  * !$omp implicit barrier @tea_leaf_cg.f90:155
+|        278.9959 |  |  |  |  |  * tea_module::tea_allsum
+|        271.7874 |  |  |  |  |  |  * MPI_Allreduce
+|          0.9139 |  |  |  |  |  * tea_leaf_kernel_cheby_module::tea_leaf_kernel_cheby_copy_u
+|          0.9076 |  |  |  |  |  |  * !$omp parallel @tea_leaf_cheby.f90:222
+|          0.9047 |  |  |  |  |  |  |  * !$omp do @tea_leaf_cheby.f90:223
+|          0.0579 |  |  |  |  |  |  |  |  * !$omp implicit barrier @tea_leaf_cheby.f90:229
+|          0.0014 |  |  |  |  |  |  |  * !$omp implicit barrier @tea_leaf_cheby.f90:230
+|       2398.5009 |  |  |  |  |  * tea_leaf_kernel_cg_module::tea_leaf_kernel_solve_cg_fortran_calc_w
+|       2385.9889 |  |  |  |  |  |  * !$omp parallel @tea_leaf_cg.f90:186
+|       2380.5971 |  |  |  |  |  |  |  * !$omp do @tea_leaf_cg.f90:187
+|         56.8924 |  |  |  |  |  |  |  |  * !$omp implicit barrier @tea_leaf_cg.f90:199
+|          3.3035 |  |  |  |  |  |  |  * !$omp implicit barrier @tea_leaf_cg.f90:200
+|       1894.7285 |  |  |  |  |  * tea_leaf_kernel_cg_module::tea_leaf_kernel_solve_cg_fortran_calc_ur
+|       1878.3441 |  |  |  |  |  |  * !$omp parallel @tea_leaf_cg.f90:234
+|       1873.1622 |  |  |  |  |  |  |  * !$omp do @tea_leaf_cg.f90:247
+|         27.7861 |  |  |  |  |  |  |  |  * !$omp implicit barrier @tea_leaf_cg.f90:255
+|          3.0381 |  |  |  |  |  |  |  * !$omp implicit barrier @tea_leaf_cg.f90:257
+|        332.5923 |  |  |  |  |  * tea_leaf_kernel_cg_module::tea_leaf_kernel_solve_cg_fortran_calc_p
+|        319.8702 |  |  |  |  |  |  * !$omp parallel @tea_leaf_cg.f90:284
+|        313.6872 |  |  |  |  |  |  |  * !$omp do @tea_leaf_cg.f90:294
+|         10.1669 |  |  |  |  |  |  |  |  * !$omp implicit barrier @tea_leaf_cg.f90:300
+|          3.5976 |  |  |  |  |  |  |  * !$omp implicit barrier @tea_leaf_cg.f90:302
+|          1.3687 |  |  |  |  |  * tea_leaf_kernel_module::tea_leaf_kernel_finalise
+|          1.3252 |  |  |  |  |  |  * !$omp parallel @tea_leaf_jacobi.f90:192
+|          1.3127 |  |  |  |  |  |  |  * !$omp do @tea_leaf_jacobi.f90:192
+|          0.1368 |  |  |  |  |  |  |  |  * !$omp implicit barrier @tea_leaf_jacobi.f90:198
+|          0.2105 |  |  |  |  * field_summary
+|          0.2006 |  |  |  |  |  * field_summary_kernel_module::field_summary_kernel
+|          0.1994 |  |  |  |  |  |  * !$omp parallel @field_summary_kernel.f90:49
+|          0.1968 |  |  |  |  |  |  |  * !$omp do @field_summary_kernel.f90:50
+|          0.0419 |  |  |  |  |  |  |  |  * !$omp implicit barrier @field_summary_kernel.f90:61
+|          0.0003 |  |  |  |  |  |  |  * !$omp implicit barrier @field_summary_kernel.f90:62
+|          0.0085 |  |  |  |  |  * tea_module::tea_sum
+|          0.0078 |  |  |  |  |  |  * MPI_Reduce
+|          0.0594 |  |  |  |  * tea_module::tea_finalize
+|          0.0471 |  |  |  |  |  * MPI_Finalize

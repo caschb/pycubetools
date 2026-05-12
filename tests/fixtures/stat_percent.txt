@@ -1,0 +1,5 @@
+cube::Metric,Routine,Count,Sum,Mean,Variance,Minimum,Quartile 25,Median,Quartile 75,Maximum
+time,INCL(tea_leaf),128,5516.71,43.0993,0.0415760,42.8287,42.9416,43.1260,43.2394,43.4112
+time,EXCL(tea_leaf),128,0.0117698,9.19517e-05,2.58483e-10,7.95508e-05,8.23373e-05,8.50951e-05,9.64858e-05,0.000137301
+time,INCL(tea_leaf),128,5516.69,43.0992,0.0415756,42.8286,42.9415,43.1259,43.2393,43.4111
+

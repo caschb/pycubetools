@@ -1,0 +1,4 @@
+Number of nodes    : 2
+Processes per node : 0
+Number of processes: 16
+Wallclock time     : 49.6184
