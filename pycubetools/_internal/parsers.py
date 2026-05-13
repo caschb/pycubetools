@@ -71,18 +71,21 @@ def parse_stat(raw: str) -> pl.DataFrame:
             reason=f"missing columns: {missing}",
         )
 
-    return df.select(
-        [
-            pl.col("cube::Metric").alias("metric"),
-            pl.col("Routine").alias("routine"),
-            pl.col("Count").cast(pl.Int64).alias("count"),
-            pl.col("Sum").cast(pl.Float64).alias("sum"),
-            pl.col("Mean").cast(pl.Float64).alias("mean"),
-            pl.col("Variance").cast(pl.Float64).alias("variance"),
-            pl.col("Minimum").cast(pl.Float64).alias("minimum"),
-            pl.col("Maximum").cast(pl.Float64).alias("maximum"),
-        ],
-    ).filter(pl.col("metric").is_not_null())
+    try:
+        return df.select(
+            [
+                pl.col("cube::Metric").alias("metric"),
+                pl.col("Routine").alias("routine"),
+                pl.col("Count").cast(pl.Int64).alias("count"),
+                pl.col("Sum").cast(pl.Float64).alias("sum"),
+                pl.col("Mean").cast(pl.Float64).alias("mean"),
+                pl.col("Variance").cast(pl.Float64).alias("variance"),
+                pl.col("Minimum").cast(pl.Float64).alias("minimum"),
+                pl.col("Maximum").cast(pl.Float64).alias("maximum"),
+            ],
+        ).filter(pl.col("metric").is_not_null())
+    except Exception as exc:
+        raise CubeParseError(tool="cube_stat", raw=raw, reason=str(exc)) from exc
 
 
 def parse_info_basic(raw: str) -> dict[str, int | float]:
@@ -106,12 +109,17 @@ def parse_info_basic(raw: str) -> dict[str, int | float]:
     """
     result: dict[str, int | float] = {}
     for line in raw.splitlines():
-        if "Number of nodes" in line:
-            result["nodes"] = int(line.split(":")[-1].strip())
-        elif "Number of processes" in line:
-            result["processes"] = int(line.split(":")[-1].strip())
-        elif "Wallclock time" in line:
-            result["wallclock_time"] = float(line.split(":")[-1].strip())
+        try:
+            if "Number of nodes" in line:
+                result["nodes"] = int(line.split(":")[-1].strip())
+            elif "Number of processes" in line:
+                result["processes"] = int(line.split(":")[-1].strip())
+            elif "Wallclock time" in line:
+                result["wallclock_time"] = float(line.split(":")[-1].strip())
+        except ValueError as exc:
+            raise CubeParseError(
+                tool="cube_info", raw=raw, reason=f"malformed field: {exc}",
+            ) from exc
 
     missing = {"nodes", "processes", "wallclock_time"} - result.keys()
     if missing:

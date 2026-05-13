@@ -235,15 +235,18 @@ def _parse_topn(raw: str) -> pl.DataFrame:
             reason=f"unexpected flat-profile columns: missing {missing}",
         )
 
-    return df.select(
-        [
-            pl.lit("time").alias("metric"),
-            pl.col("cube::Region").alias("routine"),
-            pl.col("Number of Calls").cast(pl.Int64).alias("count"),
-            pl.col("Exclusive Time").cast(pl.Float64).alias("sum"),
-            pl.lit(None).cast(pl.Float64).alias("mean"),
-            pl.lit(None).cast(pl.Float64).alias("variance"),
-            pl.lit(None).cast(pl.Float64).alias("minimum"),
-            pl.lit(None).cast(pl.Float64).alias("maximum"),
-        ],
-    )
+    try:
+        return df.select(
+            [
+                pl.lit("time").alias("metric"),
+                pl.col("cube::Region").alias("routine"),
+                pl.col("Number of Calls").cast(pl.Int64).alias("count"),
+                pl.col("Exclusive Time").cast(pl.Float64).alias("sum"),
+                pl.lit(None).cast(pl.Float64).alias("mean"),
+                pl.lit(None).cast(pl.Float64).alias("variance"),
+                pl.lit(None).cast(pl.Float64).alias("minimum"),
+                pl.lit(None).cast(pl.Float64).alias("maximum"),
+            ],
+        )
+    except Exception as exc:
+        raise CubeParseError(tool="cube_stat", raw=raw, reason=str(exc)) from exc
