@@ -10,7 +10,6 @@ from pathlib import Path
 
 from pycubetools.exceptions import CubeConfigError
 
-_TOML_CONFIG_PATH = Path.home() / ".config" / "pycubetools" / "config.toml"
 _ENV_VAR = "CUBE_INSTALL_DIR"
 
 
@@ -141,10 +140,12 @@ def _build_default_config() -> CubeConfig:
 
 def _read_toml_install_dir() -> Path | None:
     """Read install_dir from the TOML config file, or return None."""
-    if not _TOML_CONFIG_PATH.is_file():
+    # Evaluated here (not at module level) to avoid side effects on import.
+    toml_path = Path.home() / ".config" / "pycubetools" / "config.toml"
+    if not toml_path.is_file():
         return None
 
-    with _TOML_CONFIG_PATH.open("rb") as fh:
+    with toml_path.open("rb") as fh:
         data = tomllib.load(fh)
 
     raw = data.get("cubelib", {}).get("install_dir")
