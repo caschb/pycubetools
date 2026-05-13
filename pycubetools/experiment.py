@@ -244,6 +244,9 @@ class CubeExperiment:
             A new experiment wrapping the merged result.
 
         """
+        if len(experiments) < 2:  # noqa: PLR2004 — minimum arity, not a magic number
+            msg = f"merge() requires at least 2 experiments, got {len(experiments)}"
+            raise ValueError(msg)
         out_dir = Path(output_dir) if output_dir else None
         runner = experiments[0]._make_runner()  # noqa: SLF001
         mgr = TempfileManager(out_dir)
@@ -277,6 +280,9 @@ class CubeExperiment:
             A new experiment wrapping the averaged result.
 
         """
+        if len(experiments) < 2:  # noqa: PLR2004 — minimum arity, not a magic number
+            msg = f"mean() requires at least 2 experiments, got {len(experiments)}"
+            raise ValueError(msg)
         out_dir = Path(output_dir) if output_dir else None
         runner = experiments[0]._make_runner()  # noqa: SLF001
         mgr = TempfileManager(out_dir)
