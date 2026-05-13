@@ -6,7 +6,7 @@ A Python wrapper around the [CubeLib 4.9](https://www.scalasca.org/software/cube
 
 - **Inspection** — call-tree profiling, per-routine statistics, raw metric dump, and basic experiment metadata via `cube_calltree`, `cube_stat`, `cube_dump`, and `cube_info`
 - **Algebra** — diff, merge, and mean of `.cubex` profiles via `cube_diff`, `cube_merge`, and `cube_mean`; automatic cleanup of temporary files
-- **Direct file reading** — metric tree, system tree, and call-node tree read directly from `.cubex` files using [pyCubexR](https://github.com/score-p/pycubexr), with no subprocess overhead
+- **Direct file reading** — metric tree, system tree, and call-node tree read directly from `.cubex` files using [pyCubexR](https://github.com/extra-p/pycubexr), with no subprocess overhead
 
 ## Requirements
 
@@ -22,7 +22,7 @@ pip install pycubetools
 Or from source with [uv](https://github.com/astral-sh/uv):
 
 ```bash
-git clone https://github.com/...
+git clone https://github.com/caschb/pycubetools
 cd pycubetools
 uv sync
 ```
