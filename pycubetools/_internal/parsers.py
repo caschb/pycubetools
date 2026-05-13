@@ -13,7 +13,10 @@ from pycubetools.exceptions import CubeParseError
 _CALLTREE_SKIP_PREFIXES = ("Reading ",)
 
 # Callpath prefix patterns that terminate the name field in calltree output.
-_CALLPATH_RE = re.compile(r"\s+((?:USR|MPI|OMP|COM|EPK|SYS|REC):/\S*)\s*$")
+# Use \S.*? (at least one non-space after /, then any chars) so that callpaths
+# containing spaces (e.g. OMP regions like "!$omp parallel @file:45") are
+# captured correctly; \s*$ strips trailing whitespace.
+_CALLPATH_RE = re.compile(r"\s+((?:USR|MPI|OMP|COM|EPK|SYS|REC):/\S.*?)\s*$")
 
 
 def parse_stat(raw: str) -> pl.DataFrame:

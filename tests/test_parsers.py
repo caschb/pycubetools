@@ -219,6 +219,19 @@ class TestParseCalltree:
         df = parse_calltree(raw)
         assert not any("Reading" in name for name in df["name"].to_list())
 
+    def test_callpath_with_spaces(self) -> None:
+        """Callpaths containing spaces (e.g. OMP regions) must not be dropped."""
+        raw = (
+            "0.5 (100%) root"
+            "                                   USR:/main\n"
+            "0.1 (20%)    + omp_region"
+            "              OMP:/main/!$omp parallel @foo.f90:42\n"
+        )
+        df = parse_calltree(raw)
+        omp_rows = df.filter(df["name"].str.contains("omp_region"))
+        assert len(omp_rows) == 1
+        assert "!$omp parallel" in omp_rows["callpath"][0]
+
 
 # ---------------------------------------------------------------------------
 # parse_dump
