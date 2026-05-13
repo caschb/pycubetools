@@ -1,5 +1,7 @@
 """pycubetools — Python wrapper for CubeLib 4.9 command-line tools."""
 
+from __future__ import annotations
+
 from pycubetools.config import configure
 from pycubetools.exceptions import (
     CubeConfigError,

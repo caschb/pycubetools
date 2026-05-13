@@ -382,21 +382,21 @@ class TestMergeMeanArity:
     """Tests for merge() and mean() minimum-arity contract."""
 
     def test_merge_zero_raises(self) -> None:
-        with pytest.raises(ValueError, match="merge()"):
+        with pytest.raises(ValueError, match=r"merge\(\)"):
             CubeExperiment.merge()
 
     def test_merge_one_raises(self, cubex_path: Path) -> None:
         exp = _make_exp(cubex_path)
-        with pytest.raises(ValueError, match="merge()"):
+        with pytest.raises(ValueError, match=r"merge\(\)"):
             CubeExperiment.merge(exp)
 
     def test_mean_zero_raises(self) -> None:
-        with pytest.raises(ValueError, match="mean()"):
+        with pytest.raises(ValueError, match=r"mean\(\)"):
             CubeExperiment.mean()
 
     def test_mean_one_raises(self, cubex_path: Path) -> None:
         exp = _make_exp(cubex_path)
-        with pytest.raises(ValueError, match="mean()"):
+        with pytest.raises(ValueError, match=r"mean\(\)"):
             CubeExperiment.mean(exp)
 
 

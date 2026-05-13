@@ -157,7 +157,7 @@ def parse_info_tree(raw: str) -> pl.DataFrame:
     # First line is the header: "|    <MetricName> | Diff-Calltree"
     header = lines[0]
     parts = header.split("|")
-    if len(parts) < 3:  # noqa: PLR2004
+    if len(parts) < 3:  # noqa: PLR2004 — minimum pipe-segment count, not an arbitrary constant
         raise CubeParseError(
             tool="cube_info", raw=raw, reason=f"unexpected header: {header!r}",
         )
@@ -174,7 +174,7 @@ def parse_info_tree(raw: str) -> pl.DataFrame:
             continue
         # Split on the first two `|` separators: "| value | tree_part"
         seg = line.split("|", 2)
-        if len(seg) < 3:  # noqa: PLR2004
+        if len(seg) < 3:  # noqa: PLR2004 — minimum pipe-segment count, not an arbitrary constant
             continue
         raw_value = seg[1].strip()
         tree_part = seg[2]
