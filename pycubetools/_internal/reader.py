@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import contextlib
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import polars as pl
 import pycubexr
@@ -179,9 +179,9 @@ class CubexReader:
 
         rows: list[dict[str, str]] = []
 
-        def _walk(node: object, machine: str) -> None:  # type: ignore[type-arg]
-            children = node._system_tree_node_children  # noqa: SLF001
-            groups = node._location_group_children  # noqa: SLF001
+        def _walk(node: Any, machine: str) -> None:  # noqa: ANN401 — pyCubexR tree nodes are not exported with a public type
+            children = node._system_tree_node_children  # noqa: SLF001 — pyCubexR internal
+            groups = node._location_group_children  # noqa: SLF001 — pyCubexR internal
             if groups:
                 node_name: str = node.name  # type: ignore[attr-defined]
                 for group in groups:
@@ -193,7 +193,7 @@ class CubexReader:
                             "process": process_name,
                             "thread": loc.name,
                         }
-                        for loc in group._locations  # noqa: SLF001
+                        for loc in group._locations  # noqa: SLF001 — pyCubexR internal
                     )
             for child in children:
                 _walk(child, machine)
@@ -233,12 +233,20 @@ class CubexReader:
                 depth += 1
                 node = node.parent
 
-            raw_line = cn.region.begin
-            line_num = int(raw_line) if raw_line and raw_line != -1 else 0
+            region = cn.region
+            if region is not None:
+                raw_line = region.begin
+                line_num = int(raw_line) if raw_line and raw_line != -1 else 0
+                region_name: str = region.name
+                file_path: str = region.mod or ""
+            else:
+                line_num = 0
+                region_name = ""
+                file_path = ""
 
             cnode_ids.append(cn.id)
-            region_names.append(cn.region.name)
-            files.append(cn.region.mod or "")
+            region_names.append(region_name)
+            files.append(file_path)
             line_numbers.append(line_num)
             parent_ids.append(cn.parent.id if cn.parent else None)
             depths.append(depth)
@@ -266,12 +274,18 @@ class CubexReader:
 
         try:
             mv = self._parser.get_metric_values(metric)
+            # cnode_values() requires a CNode object, not an int; build a
+            # lookup from the parser so we can resolve each index.
+            cnode_by_id = {cn.id: cn for cn in self._parser.all_cnodes()}
             cnode_ids: list[int] = []
             thread_ids: list[int] = []
             values: list[float] = []
 
             for cnode_idx in mv.cnode_indices:
-                vals = mv.cnode_values(cnode_idx)
+                cnode = cnode_by_id.get(cnode_idx)
+                if cnode is None:
+                    continue
+                vals = mv.cnode_values(cnode)
                 for thread_id, val in enumerate(vals):
                     cnode_ids.append(cnode_idx)
                     thread_ids.append(thread_id)
