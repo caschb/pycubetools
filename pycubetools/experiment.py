@@ -433,14 +433,16 @@ def _make_owned(
 ) -> CubeExperiment:
     """Construct a CubeExperiment that owns *out_path* and will delete it.
 
-    The instance owns its file only when it was written to a temp directory
-    (i.e. *out_dir* is ``None``).  *temp_mgr* is stored on the instance to
-    keep the underlying ``TemporaryDirectory`` alive until cleanup.
+    ``_owned`` is always ``True`` for algebra-created instances.
+    ``_owned_path`` is only set when *out_dir* is ``None`` (temp dir),
+    because user-provided output directories must not be auto-deleted.
+    *temp_mgr* is stored to keep the ``TemporaryDirectory`` alive until
+    ``_cleanup`` runs.
     """
     exp = CubeExperiment.__new__(CubeExperiment)
-    exp._path = out_path  # noqa: SLF001
-    exp._output_dir = out_dir  # noqa: SLF001
-    exp._owned = out_dir is None  # noqa: SLF001
-    exp._owned_path = out_path if out_dir is None else None  # noqa: SLF001
-    exp._temp_mgr = temp_mgr  # noqa: SLF001
+    exp._path = out_path  # noqa: SLF001 — constructing without __init__
+    exp._output_dir = out_dir  # noqa: SLF001 — constructing without __init__
+    exp._owned = True  # noqa: SLF001 — always True for algebra results
+    exp._owned_path = out_path if out_dir is None else None  # noqa: SLF001 — only clean up temp-dir outputs
+    exp._temp_mgr = temp_mgr  # noqa: SLF001 — constructing without __init__
     return exp
